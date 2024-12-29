@@ -1,0 +1,16 @@
+/* src/main/resources/static/styles/styles.css */
+.question-field {
+    width: 100%;
+    max-width: 400px;
+}
+
+.ask-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.answer-paragraph {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
