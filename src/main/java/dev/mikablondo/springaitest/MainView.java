@@ -2,9 +2,11 @@ package dev.mikablondo.springaitest;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.Route;
 import org.springframework.ai.mistralai.MistralAiChatModel;
 
@@ -16,17 +18,33 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MainView extends VerticalLayout {
 
     private final List<Discussion> messages = new ArrayList<>();
+    private final VerticalLayout titleLayout = new VerticalLayout();
     private final VerticalLayout emptyLayout = new VerticalLayout();
     private final VerticalLayout discussionLayout = new VerticalLayout();
 
     public MainView(MistralAiChatModel chatModel) {
+        setSizeFull();
+        setAlignItems(Alignment.CENTER);
+
         AtomicBoolean dejaAffiche = new AtomicBoolean(false);
 
-        var question = new TextField();
+        var question = new TextArea();
+        question.setPlaceholder("Posez votre question ici...");
+        question.setWidth("700px");
+        question.setHeight("150px");
+        question.setMaxLength(1000);
+        question.setAutoselect(true);
+        question.setClearButtonVisible(true);
+        question.setRequiredIndicatorVisible(true);
         question.addClassName("question-field");
 
-        var ask = new Button("Pose ta question");
+        Icon arrowIcon = VaadinIcon.ARROW_RIGHT.create();
+        var ask = new Button(arrowIcon);
+        ask.getElement().setProperty("title", "Envoie la !");
         ask.addClassName("ask-button");
+
+        discussionLayout.setWidthFull();
+        discussionLayout.setAlignItems(Alignment.CENTER);
 
         ask.addClickListener(event -> {
             try {
