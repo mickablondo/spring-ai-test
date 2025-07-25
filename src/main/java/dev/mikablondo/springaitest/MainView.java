@@ -1,6 +1,7 @@
 package dev.mikablondo.springaitest;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -30,6 +31,19 @@ public class MainView extends VerticalLayout {
         setSpacing(true);
 
         AtomicBoolean dejaAffiche = new AtomicBoolean(false);
+
+
+        // titre
+        H1 title = new H1("MiK@-GPT");
+        title.getStyle()
+                .set("color", "#FF6F61")
+                .set("font-weight", "900")
+                .set("font-size", "4rem")
+                .set("text-align", "center")
+                .set("margin", "40px 0 30px 0")
+                .set("font-family", "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif")
+                .set("text-shadow", "2px 2px 3px rgba(0,0,0,0.4), 4px 4px 6px rgba(0,0,0,0.3)");
+        add(title);
 
         var question = new TextArea();
         question.setPlaceholder("Posez votre question ici...");
