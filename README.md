@@ -1,5 +1,5 @@
 # What ?
-Testing spring-ai : https://spring.io/projects/spring-ai  
+Testing spring-ai with Mistral AI : https://docs.spring.io/spring-ai/reference/api/chat/mistralai-chat.html  
 With Vaadin : https://vaadin.com/docs/latest/components
 
 # How to use ?
