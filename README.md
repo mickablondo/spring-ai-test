@@ -7,3 +7,5 @@ With Vaadin : https://vaadin.com/docs/latest/components
 - Maven 3
 - Add an environment variable for the API key
  
+# Screenshot
+![screenshot](screenshot.png)
