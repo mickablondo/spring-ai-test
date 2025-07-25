@@ -10,14 +10,18 @@ import org.springframework.ai.mistralai.MistralAiChatModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Route("")
 public class MainView extends VerticalLayout {
 
     private final List<Discussion> messages = new ArrayList<>();
+    private final VerticalLayout emptyLayout = new VerticalLayout();
     private final VerticalLayout discussionLayout = new VerticalLayout();
 
     public MainView(MistralAiChatModel chatModel) {
+        AtomicBoolean dejaAffiche = new AtomicBoolean(false);
+
         var question = new TextField();
         question.addClassName("question-field");
 
@@ -27,9 +31,14 @@ public class MainView extends VerticalLayout {
         ask.addClickListener(event -> {
             try {
                 if (question.isEmpty()) {
-                    addComponentAtIndex(0, new Paragraph("Veuillez poser une question."));
+                    if(!dejaAffiche.get()) {
+                        emptyLayout.addComponentAtIndex(0, new Paragraph("Veuillez poser une question."));
+                    }
+                    dejaAffiche.set(true);
                     return;
                 }
+
+                emptyLayout.removeAll();
 
                 String questionText = question.getValue();
                 String response = chatModel.call(questionText);
@@ -51,6 +60,7 @@ public class MainView extends VerticalLayout {
         });
 
         add(
+                emptyLayout,
                 new HorizontalLayout(question, ask),
                 discussionLayout
         );
