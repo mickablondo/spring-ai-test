@@ -6,12 +6,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import org.springframework.ai.chat.ChatClient;
+import org.springframework.ai.mistralai.MistralAiChatModel;
 
 @Route("")
 public class MainView extends VerticalLayout {
 
-    public MainView(ChatClient chatClient) {
+    public MainView(MistralAiChatModel chatModel) {
         var question = new TextField();
         question.addClassName("question-field");
 
@@ -23,7 +23,7 @@ public class MainView extends VerticalLayout {
 
         ask.addClickListener(event -> {
             try {
-                answer.setText(chatClient.call(question.getValue()));
+                answer.setText(chatModel.call(question.getValue()));
             } catch (Exception e) {
                 answer.setText("Une erreur est survenue lors de la pose de la question.");
             }
