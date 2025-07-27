@@ -1,8 +1,9 @@
 package dev.mikablondo.springaitest;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.messages.MessageList;
@@ -16,22 +17,18 @@ import org.springframework.ai.mistralai.MistralAiChatModel;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Route("")
 public class MainView extends VerticalLayout {
 
     private final List<Discussion> messages = new ArrayList<>();
-    private final VerticalLayout emptyLayout = new VerticalLayout();
     private final MessageList messageList = new MessageList();
+    private final Dialog dialog = new Dialog();
 
     public MainView(MistralAiChatModel chatModel) {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setSpacing(true);
-
-        AtomicBoolean dejaAffiche = new AtomicBoolean(false);
-
 
         // titre
         H1 title = new H1("MiK@-GPT");
@@ -61,15 +58,9 @@ public class MainView extends VerticalLayout {
 
         ask.addClickListener(event -> {
             if (question.isEmpty()) {
-                if (!dejaAffiche.get()) {
-                    emptyLayout.addComponentAtIndex(0, new Paragraph("Veuillez poser une question."));
-                }
-                dejaAffiche.set(true);
+                createEmptyDialog();
                 return;
             }
-
-            emptyLayout.removeAll();
-            dejaAffiche.set(false);
 
             String questionText = question.getValue();
             String response;
@@ -102,9 +93,27 @@ public class MainView extends VerticalLayout {
         });
 
         add(
-                emptyLayout,
+                dialog,
                 new HorizontalLayout(question, ask),
                 messageList
         );
+    }
+
+    /**
+     * Creates an empty dialog with a delete and cancel button.
+     * This method is currently not used but can be used to create a dialog
+     * for future enhancements.
+     */
+    private void createEmptyDialog() {
+        dialog.removeAll();
+        dialog.getFooter().removeAll();
+
+        dialog.setHeaderTitle("C’est profond … comme une flaque en été !");
+
+        Button cancelButton = new Button("Cancel", (e) -> dialog.close());
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+
+        dialog.getFooter().add(cancelButton);
+        dialog.open();
     }
 }
